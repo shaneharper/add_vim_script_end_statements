@@ -1,0 +1,6 @@
+#!/bin/bash
+
+clang++ -std=c++17 -O3 -c with_end_statements.c++ \
+&& clang++ -std=c++17 with_end_statements.o test.c++ -o test && ./test \
+&& mkdir -p ~/bin \
+&& clang++ -std=c++17 with_end_statements.o main.c++ -o ~/bin/add_vim_script_end_statements
