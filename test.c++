@@ -223,13 +223,22 @@ int main()
          "mzscheme <<\nif 1\n.\n"
          "tcl <<\nif 1\n.\n");
 
-    test("let heredoc",
+    test("let and const heredocs",
          "let text =<< trim END\n"  // (Note: "trim" is optional. end_marker is required.)
          "  if 1\n"
          "END\n"
          "let text =<<XXX\n"  // ("trim" not specified.)
          "if 1\n"
-         "XXX\n");
+         "XXX\n"
+         "\n"
+         "if 1\n"
+         "  const k =<< trim END\n"
+         "    if no_endif_required\n"
+         "  END\n"
+         "  const k2 =<< END\n"
+         "    if no_endif_required\n"
+         "  END\n"
+      ">>>endif\n");
 
 #if 0
     test("Invalid let heredoc",
