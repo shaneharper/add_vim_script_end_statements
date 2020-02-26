@@ -1,6 +1,7 @@
 #include <regex>
 #include <stack>
 #include <string>
+using namespace std::string_literals;
 
 
 std::string with_end_statements(std::istream& is)
@@ -19,9 +20,13 @@ std::string with_end_statements(std::istream& is)
     const auto add_end_statements = [&](unsigned indent)
     {
         const auto spaces = [](unsigned num) { return std::string(num, ' '); };
+        const auto end_statement = [](const std::string& keyword) -> std::string
+        {
+            return keyword == "augroup" ? "augroup end" : "end"s + keyword;
+        };
         for (; not active_code_blocks.empty() and indent <= active_code_blocks.top().indent; active_code_blocks.pop())
         {
-            r += spaces(active_code_blocks.top().indent) + "end" + active_code_blocks.top().keyword + '\n';
+            r += spaces(active_code_blocks.top().indent) + end_statement(active_code_blocks.top().keyword) + '\n';
         }
     };
 
@@ -68,7 +73,7 @@ std::string with_end_statements(std::istream& is)
             r += comment_and_blank_lines_following_last_statement + line + '\n';
             comment_and_blank_lines_following_last_statement = "";
 
-            if (static const std::regex RE("^(def|function|if|for|try|while)\\b");  // xxx doesn't check for abbreviations, e.g. func for function.
+            if (static const std::regex RE("^(augroup|def|function|if|for|try|while)\\b");  // xxx doesn't check for abbreviations, e.g. func for function.
                 const auto m = matches(RE))
             {
                 active_code_blocks.push({unsigned(indent), m.str(1)});

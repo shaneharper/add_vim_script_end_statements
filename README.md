@@ -29,6 +29,8 @@ add_vim_script_end_statements <my_script.vim+ >.my_script.vim
 
 - I'd like Vim to be able to execute scripts without end statements (and then there'd be no need for this program other than for backporting scripts to run on a Vim that requires end statements).
 
+- `augroup end` is inserted at the end of an augroup block. (Indent the `autocmd`s within an augroup block.)
+
 
 ### Code blocks ###
 

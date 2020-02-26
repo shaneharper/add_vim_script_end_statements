@@ -99,6 +99,12 @@ int main()
          " echo\n"
       ">>>endtry\n");
 
+    test("augroup",
+         "augroup X\n"
+         "  autocmd!\n"
+         "  autocmd BufWritePost ~/.vimrc  so ~/.vimrc\n"
+      ">>>augroup end\n");
+
     test("vim9script def",
          "vim9script\n"
          "\n"

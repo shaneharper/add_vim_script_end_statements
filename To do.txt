@@ -1,3 +1,4 @@
-Insert "augroup END" after an "augroup block" but only if the next non-blank/non-comment line is indented further than the "augroup" line. If the following statement line is indented the same amount then it's up to the programmer to provide the END statement (which could even be in a different script or function).
+Insert "augroup end" after an "augroup block" only if the next non-blank/non-comment line is indented further than the "augroup" line. If the following statement line is indented the same amount then it's up to the programmer to provide the end statement (which could even be in a different script or function).
+    One can currently use "execute 'augroup GroupName'" instead of "augroup GroupName" if "augroup end" shouldn't be inserted.
 
 Insert "redir END" after a "redir block"; As for an "augroup block" only do this if the first statement of the "redir block" is indented more than the "redir" line.
