@@ -4,7 +4,7 @@ Write _shorter_ scripts for the [Vim editor](https://www.vim.org/) by not includ
 
 This utility inserts end statements; It looks at indentation to determine where code blocks end.
 
-Some of my own [Vim script](https://github.com/vim/vim/blob/master/runtime/doc/usr_41.txt) scripts could be made to have >15% fewer lines by not marking the end of code blocks with `endif`, `endfunction`, etc.
+Some of my own scripts had >15% fewer lines after deleting end statements.
 
 To build ~/bin/add_vim_script_end_statements run:
 ```

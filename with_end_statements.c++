@@ -68,26 +68,26 @@ std::string with_end_statements(std::istream& is)
                 return m;
             };
 
-            static const std::regex ELSE_ELSEIF_CATCH_OR_FINALLY_RE("^(else|elseif|catch|finally)\\b");
-            add_end_statements(indent + (matches(ELSE_ELSEIF_CATCH_OR_FINALLY_RE) ? 1: 0));
+            static const std::regex CATCH_ELSE_ELSEIF_OR_FINALLY_RE("^(catch|else|elseif|finally)\\b");
+            add_end_statements(indent + (matches(CATCH_ELSE_ELSEIF_OR_FINALLY_RE) ? 1: 0));
             r += comment_and_blank_lines_following_last_statement + line + '\n';
             comment_and_blank_lines_following_last_statement = "";
 
-            if (static const std::regex RE("^(augroup|def|function|if|for|try|while)\\b");  // xxx doesn't check for abbreviations, e.g. func for function.
+            if (static const std::regex RE("^(augroup|def|for|function|if|try|while)\\b");  // xxx doesn't check for abbreviations, e.g. func for function.
                 const auto m = matches(RE))
             {
                 active_code_blocks.push({unsigned(indent), m.str(1)});
             }
-            else if (static const std::regex RE("^(insert|append)\\b"); matches(RE))
+            else if (static const std::regex RE("^(append|insert)\\b"); matches(RE))
             {
                 copy_heredoc(".");
             }
-            else if (static const std::regex RE(R"_(^(lua|mzscheme|perl|python|python[3x]|ruby|tcl)\s*<<\s*(\S*))_");  // xxx Match pyx, py3, py, and other abbreviations.
+            else if (static const std::regex RE(R"_(^(lua|mzscheme|perl|python[3x]?|ruby|tcl)\s*<<\s*(\S*))_");  // xxx Match pyx, py3, py, and other abbreviations.
                      const auto m = matches(RE))
             {
                 copy_heredoc(m.str(2).empty() ? "." : m.str(2));
             }
-            else if (static const std::regex RE(R"_(^(let|const)\s*\w+\s*=<<\s*(trim|)\s*([^a-z ]\S*))_");
+            else if (static const std::regex RE(R"_(^(const|let)\s*\w+\s*=<<\s*(trim|)\s*([^a-z ]\S*))_");
                      const auto m = matches(RE))
             {
                 copy_heredoc(m.str(3));
