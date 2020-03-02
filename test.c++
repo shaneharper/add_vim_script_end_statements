@@ -118,7 +118,7 @@ int main()
          "if 1\r\n"
          "\r\n"             // <<< This initially caused the test to fail. ("\r" had been interpreted like a statement in the first column.)
          "  echo\r\n",
-         // Note: "\r"s are dropped in the output. (It'd also have been fine if they had been left.)
+         // Note: "\r"s are dropped in the output. (Unix-style line endings are used when running on Windows in case the generated script ever needs to be run on Unix; Vim on Unix will throw "E492: Not an editor command: ^M" on reading a Vim script file with Windows-style line endings. It's ok to use Unix-style line endings on Windows though.)
          "if 1\n"
          "\n"
          "  echo\n"
