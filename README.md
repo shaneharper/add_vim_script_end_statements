@@ -31,6 +31,8 @@ add_vim_script_end_statements <my_script.vim+ >.my_script.vim
 
 - `augroup end` is inserted at the end of an augroup block. (Indent the `autocmd`s within an augroup block.)
 
+- Use `:source util/delete_end_statements.vim` to convert an existing script.
+
 
 ### Code blocks ###
 
