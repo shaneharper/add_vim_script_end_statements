@@ -1,3 +1,4 @@
+#include <istream>
 #include <regex>
 #include <stack>
 #include <string>
