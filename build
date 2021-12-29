@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname "$0")"
+
 clang++ -std=c++17 -O3 -c with_end_statements.c++ \
 && clang++ -std=c++17 with_end_statements.o test.c++ -o test && ./test \
 && mkdir -p ~/bin \

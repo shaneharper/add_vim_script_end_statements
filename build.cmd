@@ -1,4 +1,6 @@
 @echo off
+setlocal
+cd /D %~dp0
 
 if not exist %userprofile%\bin mkdir %userprofile%\bin
 cl /c /std:c++17 /EHsc /TP /FI ciso646 with_end_statements.c++ ^
