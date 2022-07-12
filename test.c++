@@ -51,11 +51,13 @@ int main()
       ">>>  endif\n"
       ">>>endfunction\n"
          "\n"               // (It looks nicer with the "endif" and "endfunction" appearing before this blank line rather than after it.)
-         "while 1\n"
-         "  for i in [1,2,3]\n"
-         "    echo i\n"
-      ">>>  endfor\n"       // Note previous "end statements" were output due to a decrease in statement indentation. These "end statements" though are output because there are no more statements.
-      ">>>endwhile\n"
+         "function! X()\n"
+         "  while 1\n"
+         "    for i in [1,2,3]\n"
+         "      echo i\n"
+      ">>>    endfor\n"       // Note previous "end statements" were output due to a decrease in statement indentation. These "end statements" though are output because there are no more statements.
+      ">>>  endwhile\n"
+      ">>>endfunction\n"
          "\n"
          "\" vim:sw=4\n"    // It's nice for the modeline to remain the last line.
          );
