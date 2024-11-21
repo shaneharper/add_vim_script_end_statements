@@ -25,7 +25,10 @@ std::string with_end_statements(std::istream& is)
         {
             return keyword == "augroup" ? "augroup end" : "end"s + keyword;
         };
-        for (; not active_code_blocks.empty() and indent <= active_code_blocks.top().indent; active_code_blocks.pop())
+
+        for (;
+             not active_code_blocks.empty() and indent <= active_code_blocks.top().indent;
+             active_code_blocks.pop())
         {
             r += spaces(active_code_blocks.top().indent) + end_statement(active_code_blocks.top().keyword) + '\n';
         }

@@ -19,9 +19,9 @@ add_vim_script_end_statements <my_script.vim+ >.my_script.vim
 
 ## Notes ##
 
-- Tabs shouldn't be used for indenting the start of a line; Presently the program only looks for spaces at the start of a line.
+- Tabs shouldn't be used for indenting the start of a line; Presently the program only counts spaces at the start of a line.
 
-- This program will only find a keyword that introduces a code block if it's the first statement on a line; `let c = Condition() | if c` should be split across two lines.
+- Be careful with having multiple statements on one line; This program only looks for keywords that introduce a code block immediately after any spaces at the start of a line. With `let c = Condition() | if c` move `if c` onto it's own line to have the program add a corresponding `endif` statement.
 
 - Keywords that prefix a code block need to be written in full, e.g. `while` not `wh`, and `function` not `func`.
 
