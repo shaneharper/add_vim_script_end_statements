@@ -46,7 +46,7 @@ std::string with_end_statements(std::istream& is)
 
     for (std::string line; getline(is, line);)
     {
-        if (line.length() and *(line.cend()-1) == '\r') { line.pop_back(); }
+        if (line.ends_with('\r')) { line.pop_back(); }
 
         const auto indent = line.find_first_not_of(' ');  // xxx This doesn't consider tabs.
         if (indent == line.npos) { comment_and_blank_lines_following_last_statement += '\n'; }

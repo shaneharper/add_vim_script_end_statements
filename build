@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-clang++ -std=c++17 -O3 -c with_end_statements.c++ \
-&& clang++ -std=c++17 with_end_statements.o test.c++ -o test && ./test \
+clang++ -std=c++20 -O3 -c with_end_statements.c++ \
+&& clang++ -std=c++20 with_end_statements.o test.c++ -o test && ./test \
 && mkdir -p ~/bin \
-&& clang++ -std=c++17 with_end_statements.o main.c++ -o ~/bin/add_vim_script_end_statements
+&& clang++ -std=c++20 with_end_statements.o main.c++ -o ~/bin/add_vim_script_end_statements
