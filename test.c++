@@ -119,12 +119,14 @@ int main()
     test("DOS line endings",
          "if 1\r\n"
          "\r\n"             // <<< This initially caused the test to fail. ("\r" had been interpreted like a statement in the first column.)
-         "  echo\r\n",
+         "  echo\r\n"
+         "echo",
          // Note: "\r"s are dropped in the output. (Unix-style line endings are used when running on Windows in case the generated script ever needs to be run on Unix; Vim on Unix will throw "E492: Not an editor command: ^M" on reading a Vim script file with Windows-style line endings. It's ok to use Unix-style line endings on Windows though.)
          "if 1\n"
          "\n"
          "  echo\n"
-         "endif\n");
+         "endif\n"
+         "echo\n" /*The last line ends with '\n' even though the source didn't end with '\r\n'. (It is common for the last line of a text file to end with \n' on Unix.)*/);
 
 #if 0  // xxx We only look for statements that prefix a new code block (or heredoc) at the start of a line.
     test("multiple statements on one-line",
