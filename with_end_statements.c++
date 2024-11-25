@@ -34,9 +34,16 @@ std::string with_end_statements(std::istream& is)
         }
     };
 
+    const auto get_line_without_end_of_line_chars = [&](std::string& line)  // The end of line character/s are removed from the stream by this function.
+    {
+        if (!getline(is, line)) { return false; }
+        if (line.ends_with('\r')) { line.pop_back(); }
+        return true;
+    };
+
     const auto copy_heredoc = [&](const std::string& end_marker)
     {
-        for (std::string line; getline(is, line);)
+        for (std::string line; get_line_without_end_of_line_chars(line);)
         {
             r += line + '\n';
             if (end_marker == line) break;
@@ -44,10 +51,9 @@ std::string with_end_statements(std::istream& is)
         // Note: Vim doesn't seem to have a problem if EOF is reached without there being a line with '.' after :insert, :append, :python3 or :pythonx.
     };
 
-    for (std::string line; getline(is, line);)
+    // xxx Lines are output with just a terminating newline character even if '\r\n' was used in the input. Ideally, perhaps, '\r's should appear in the output if they appeared in the input. (Removing '\r's shouldn't be a problem though - see :help :source_crnl.)
+    for (std::string line; get_line_without_end_of_line_chars(line);)
     {
-        if (line.ends_with('\r')) { line.pop_back(); }
-
         const auto indent = line.find_first_not_of(' ');  // xxx This doesn't consider tabs.
         if (indent == line.npos) { comment_and_blank_lines_following_last_statement += '\n'; }
         else if (line[indent] == '\\' /*line continuation character*/

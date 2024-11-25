@@ -117,11 +117,17 @@ int main()
          "EchoHi()\n");
 
     test("DOS line endings",
+         "insert!\r\n"
+         "text\r\n"
+         ".\r\n"            // << Initially this was not recognised as the end of the insert statement and consequently no "endif" was added as "if 1" was considered part of the input for :insert. (".\r" != ".")
          "if 1\r\n"
          "\r\n"             // <<< This initially caused the test to fail. ("\r" had been interpreted like a statement in the first column.)
          "  echo\r\n"
          "echo",
-         // Note: "\r"s are dropped in the output. (Unix-style line endings are used when running on Windows in case the generated script ever needs to be run on Unix; Vim on Unix will throw "E492: Not an editor command: ^M" on reading a Vim script file with Windows-style line endings. It's ok to use Unix-style line endings on Windows though.)
+         // Note: '\r's don't appear in the output. Ideally, perhaps, line endings in the output should match those in the input. Using '\n' instead of '\r\n' shouldn't be a problem though; it should be possible to run the the resulting script on either Windows or Linux. (With '\r's Vim on Linux could throw "E492: Not an editor command: ^M".) See :help :source_crnl.
+         "insert!\n"
+         "text\n"
+         ".\n"
          "if 1\n"
          "\n"
          "  echo\n"
