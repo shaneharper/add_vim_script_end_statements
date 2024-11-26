@@ -16,8 +16,6 @@ std::string with_end_statements(std::istream& is)
     };
     std::stack<CodeBlockPrefix> active_code_blocks;
 
-    std::string comment_and_blank_lines_following_last_statement;  // Lines are appended to this until the next line with a statement is reached (or EOF). This is used so that, for example, "endfunction" can be output immediately after the last statement in a function rather than after any blank lines that follow the function. Note: not until we've read the first non-blank/non-comment line after the end of a function can we determine from the indentation that the function definition finished.
-
     const auto add_end_statements = [&](unsigned indent)
     {
         const auto spaces = [](unsigned num) { return std::string(num, ' '); };
@@ -51,12 +49,17 @@ std::string with_end_statements(std::istream& is)
         // Note: Vim doesn't seem to have a problem if EOF is reached without there being a line with '.' after :insert, :append, :python3 or :pythonx.
     };
 
+    std::string comment_and_blank_lines_following_last_statement;  // Lines are appended to this until the next line with a statement is reached (or there is no more input). This is used so that, for example, "endfunction" can be output immediately after the last statement in a function rather than after any blank lines that follow the function. Note: not until we've read the first non-blank/non-comment line after the end of a function can we determine from the indentation that the function definition finished.
+
     // xxx Lines are output with just a terminating newline character even if '\r\n' was used in the input. Ideally, perhaps, '\r's should appear in the output if they appeared in the input. (Removing '\r's shouldn't be a problem though - see :help :source_crnl.)
     for (std::string line; get_line_without_end_of_line_chars(line);)
     {
         const auto indent = line.find_first_not_of(' ');  // xxx This doesn't consider tabs.
-        if (indent == line.npos) { comment_and_blank_lines_following_last_statement += '\n'; }
-        else if (line[indent] == '\\' /*line continuation character*/
+        if (indent == line.npos)
+        {
+            comment_and_blank_lines_following_last_statement += '\n';
+        }
+        else if ('\\' /*line continuation character*/ == line[indent]
                  or 0 == line.compare(indent, 2, "\"\\") /*is a "line continuation comment".*/)
         {
             if (r.empty() or not comment_and_blank_lines_following_last_statement.empty()) { throw "Unexpected line continuation symbol."; }
