@@ -50,7 +50,8 @@ int main()
          "    echo\n"
       ">>>  endif\n"
       ">>>endfunction\n"
-         "\n"               // (It looks nicer with the "endif" and "endfunction" appearing before this blank line rather than after it.)
+         "\n"
+         "\n"               // (It looks nicer with the "endif" and "endfunction" appearing before the blank lines rather than after them.)
          "function! X()\n"
          "  while 1\n"
          "    for i in [1,2,3]\n"
@@ -160,7 +161,8 @@ int main()
          // (Check no "endif" inserted here even though the next line is not indented.)
          "\"\\ Comment.\n"
          "\\ 1\n"
-         "  echo\n"
+         "  let a =\n"
+         "\\       42\n"
       ">>>endif\n");
 
     test("Unexpected line continuation symbol at start of file",
