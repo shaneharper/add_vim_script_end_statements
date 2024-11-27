@@ -100,7 +100,7 @@ std::string with_end_statements(std::istream& is)
             {
                 copy_heredoc(m.str(2).empty() ? "." : m.str(2));
             }
-            else if (static const std::regex RE(R"_(^(const|let)\s*\w+\s*=<<\s*(trim|)\s*([^a-z ]\S*))_");
+            else if (static const std::regex RE(R"_(^(const?|let)\s*\w+\s*=<<\s*(trim|)\s*([^a-z ]\S*))_");
                      const auto m = matches(RE))
             {
                 copy_heredoc(m.str(3));
