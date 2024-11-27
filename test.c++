@@ -252,10 +252,10 @@ int main()
          "if 1\n"
          "  const k =<< trim END\n"
          "    if no_endif_required\n"
-         "  END\n"
+         "END\n"
          "  const k2 =<< END\n"
          "    if no_endif_required\n"
-         "  END\n"
+         "END\n"
       ">>>endif\n");
 
 #if 0
