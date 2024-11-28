@@ -91,7 +91,7 @@ std::string with_end_statements(std::istream& is)
             {
                 active_code_blocks.push({unsigned(indent), m.str(1)});
             }
-            else if (static const std::regex RE("^(append|insert)\\b"); matches(RE))
+            else if (static const std::regex RE("^\\d*(append|insert)\\b"); matches(RE))  // xxx See "insert and append with a location prefix" test.
             {
                 copy_heredoc(".");
             }

@@ -186,6 +186,9 @@ int main()
          "\n"
          ".\n"
       ">>>endfunction\n"
+         "42insert\n"
+         "if 0\n"
+         ".\n"
          "append\n"
          "function Y()\n"   // No "endfunction" inserted.
          // Vim interprets EOF as a valid end of a heredoc.
@@ -193,9 +196,6 @@ int main()
 
 #if 0
     test("insert and append with a location prefix",
-         "5insert\n"
-         "if 0\n"
-         ".\n"
          "/needle/append\n"
          "Here it is!\n"
          ".\n");            // xxx test with other locations, e.g. $, 'm, etc. (:help range lists all options.)
