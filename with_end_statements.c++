@@ -46,7 +46,7 @@ std::string with_end_statements(std::istream& is)
             r += line + '\n';
             if (end_marker == line) break;
         }
-        // Note: Vim doesn't seem to have a problem if EOF is reached without there being a line with '.' after :insert, :append, :python3 or :pythonx.
+        // Note: Vim doesn't seem to have a problem if EOF is reached without there being a line with '.' after :insert or :append. Vim throws E990 though if no end marker exists for a heredoc for :python3, :pythonx, :let, etc.
     };
 
     std::string comment_and_blank_lines_following_last_statement;  // Lines are appended to this until the next line with a statement is reached (or there is no more input). This is used so that, for example, "endfunction" can be output immediately after the last statement in a function rather than after any blank lines that follow the function. Note: not until we've read the first non-blank/non-comment line after the end of a function can we determine from the indentation that the function definition finished.
@@ -82,7 +82,7 @@ std::string with_end_statements(std::istream& is)
             };
 
             static const std::regex CATCH_ELSE_ELSEIF_OR_FINALLY_RE("^(catch|else|elseif|finally)\\b");
-            add_end_statements(indent + (matches(CATCH_ELSE_ELSEIF_OR_FINALLY_RE) ? 1: 0));
+            add_end_statements(indent + (matches(CATCH_ELSE_ELSEIF_OR_FINALLY_RE) ? 1 : 0));
             r += comment_and_blank_lines_following_last_statement + line + '\n';
             comment_and_blank_lines_following_last_statement = "";
 
@@ -91,16 +91,16 @@ std::string with_end_statements(std::istream& is)
             {
                 active_code_blocks.push({unsigned(indent), m.str(1)});
             }
-            else if (static const std::regex RE("^\\d*(append|insert)\\b"); matches(RE))  // xxx See "insert and append with a location prefix" test.
+            else if (static const std::regex RE("^\\d*(append|insert)\\b"); matches(RE))  // xxx See "insert and append with a location prefix" test.  xxx Also check for "a" (short for "append") and for "i" (short for "insert").
             {
                 copy_heredoc(".");
             }
-            else if (static const std::regex RE(R"_(^(lua|mzscheme|perl|python[3x]?|ruby|tcl)\s*<<\s*(\S*))_");  // xxx Match pyx, py3, py, and other abbreviations.
+            else if (static const std::regex RE(R"_(^(lua|mzscheme|perl|python[3x]?|ruby|tcl)\s*<<\s*(\S*))_");  // xxx "<<" and/or the heredoc end marker could be on separate lines if '\' (line continuation symbol) is used.  xxx Match pyx, py3, py, and other abbreviations.
                      const auto m = matches(RE))
             {
                 copy_heredoc(m.str(2).empty() ? "." : m.str(2));
             }
-            else if (static const std::regex RE(R"_(^(const?|let)\s*\w+\s*=<<\s*(trim|)\s*([^a-z ]\S*))_");
+            else if (static const std::regex RE(R"_(^(const?|let)\s*\w+\s*=<<\s*(trim |)\s*([^a-z ]\S*))_");  // xxx Multiple lines could be used, e.g. 'let x' followed by' \ =<< trim END' on the following line.
                      const auto m = matches(RE))
             {
                 copy_heredoc(m.str(3));

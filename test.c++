@@ -191,7 +191,7 @@ int main()
          ".\n"
          "append\n"
          "function Y()\n"   // No "endfunction" inserted.
-         // Vim interprets EOF as a valid end of a heredoc.
+         // Vim interprets EOF as a valid end of a heredoc for :append.
          );
 
 #if 0
@@ -223,16 +223,16 @@ int main()
 #endif
 
     test("python heredoc with custom end marker",
-         "python << ?/EOF!\n"
+         "python << ?/End!\n"
          "if 1:\n"
          " def the_answer():\n"
          "  return 42\n"
-         "?/EOF!\n"
+         "?/End!\n"
          "\n"
-         "python3 << ?/EOF!\n"
+         "python3 << ?/End!\n"
          "if 1:\n"
          " pass\n"
-         "?/EOF!\n");
+         "?/End!\n");
 
     test("lua, perl, ruby, mzscheme and tcl heredocs",
          "lua <<\nif 1\n.\n"
@@ -245,9 +245,9 @@ int main()
          "let text =<< trim END\n"  // (Note: "trim" is optional. end_marker is required.)
          "  if 1\n"
          "END\n"
-         "let text =<<XXX\n"  // ("trim" not specified.)
+         "let text =<<END_TEXT\n"  // ("trim" not specified.)
          "if 1\n"
-         "XXX\n"
+         "END_TEXT\n"
          "\n"
          "if 1\n"
          "  const k =<< trim END\n"
@@ -271,7 +271,7 @@ int main()
          "\asdf\n"          // we don't want this and the previous line to be interpreted as "appendasdf" (and then "append" not to be recognised as introducing a heredoc).
          "function F()\n"   // no "endfunction" required.
          ".\n"
-         ":set cpo-=C\n");
+         "set cpo-=C\n");
 #endif
 
     if (!failed_tests_count) { std::cout << "Ok.\n"; }
