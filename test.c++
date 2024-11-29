@@ -190,6 +190,7 @@ int main()
          "if 0\n"
          ".\n"
          "append\n"
+         "  \\[unimportant - rare to start line after :append with '\\'.] This line will be processed by the utility as the first line of a heredoc for :append (and not as a \"continuation line\"). Note though that Vim will only interpret this line as the first line of a heredoc for :append if cpoptions contains 'C' even though by default cpoptions won't contain 'C'! (See :help line-continuation, search for \":append\".)\n"
          "function Y()\n"   // No "endfunction" inserted.
          // Vim interprets EOF as a valid end of a heredoc for :append.
          );
@@ -262,16 +263,6 @@ int main()
     test("Invalid let heredoc",
          "let text =<<\n  if 1\n.\n",
          "Exception: Invalid let heredoc - end marker not specified.\n");
-#endif
-
-#if 0  // ignore...
-    test("heredoc beginning with \\",  // see :h line-continuation
-         "set cpo+=C\n"
-         "append\n"
-         "\asdf\n"          // we don't want this and the previous line to be interpreted as "appendasdf" (and then "append" not to be recognised as introducing a heredoc).
-         "function F()\n"   // no "endfunction" required.
-         ".\n"
-         "set cpo-=C\n");
 #endif
 
     if (!failed_tests_count) { std::cout << "Ok.\n"; }
